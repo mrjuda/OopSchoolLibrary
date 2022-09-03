@@ -1,4 +1,4 @@
-# School Library (OOP)
+# School Library (OOP) v1.2
 ## 📑 Project description
 A school library system
 
