@@ -1,9 +1,10 @@
 # decorators.rb
 
-require_relative 'person'
+require_relative 'nameable'
 
-class BaseDecorator
+class BaseDecorator < Nameable
   def initialize(nameable)
+    super()
     @nameable = nameable
   end
 
