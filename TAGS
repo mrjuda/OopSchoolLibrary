@@ -1,0 +1,22 @@
+
+person.rb,443
+class PersonPerson3,0
+  def initialize(age, name = 'Unknown', parent_permission: true)initialize4,0
+  attr_reader :id, :parent_permissionid11,0
+  attr_reader :id, :parent_permissionparent_permission11,0
+  attr_accessor :name, :agename12,0
+  attr_accessor :name, :agename=12,0
+  attr_accessor :name, :ageage12,0
+  attr_accessor :name, :ageage=12,0
+  def can_use_services?can_use_services?18,0
+  def is_of_age?is_of_age?28,0
+
+student.rb,159
+class Student < PersonStudent5,0
+  def initialize(age, classroom, name = 'Unknown', parent_permission: true)initialize6,0
+  def play_hookyplay_hooky11,0
+
+teacher.rb,178
+class Teacher < PersonTeacher5,0
+  def initialize(age, specialization, name = 'Unknown', parent_permission: true)initialize6,0
+  def can_use_services?can_use_services?11,0
