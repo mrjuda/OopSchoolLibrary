@@ -9,19 +9,28 @@ class Person < Nameable
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = []
+    @books = []
   end
 
-  attr_accessor :age, :name
+  attr_accessor :age, :name, :rentals
   attr_reader :id
 
   def can_use_services
-    return true if @age >= 18 || @parent_permission
+    return true if of_age? || @parent_permission
 
     false
   end
 
   def correct_name
     @name
+  end
+
+  def add_rental(rental, book)
+    book.rentals.push(rental) unless book.rentals.include?(rental)
+    book.person = self
+    @rentals.push(rental)
+    @books.push(book)
   end
 
   private
