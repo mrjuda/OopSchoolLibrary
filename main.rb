@@ -30,10 +30,10 @@ class Main
       when 5 then app.create_rental
       when 6 then app.list_all_rentals
       when 7
-        puts 'Thanks for using my program. Bye!'
+        puts 'School Library appreciates your visit!'
         user_finished = true
       else
-        puts 'Invalid Selection. Please enter a number between 1-7'
+        puts 'Please choose a number between 1 and 7'
       end
     end
   end
