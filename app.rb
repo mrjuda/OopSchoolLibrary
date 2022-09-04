@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # app.rb
 
 require_relative 'student'
