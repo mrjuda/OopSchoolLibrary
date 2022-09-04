@@ -1,13 +1,16 @@
 # book.rb
 
-require 'rental'
+require_relative 'rental'
 
 class Book
   def initialize(title, author)
     @title = title
     @author = author
-    @person = nil
     @rentals = []
+  end
+
+  def add_rental(rental)
+    @rentals << rental
   end
 
   attr_accessor :title, :author, :person, :rentals
