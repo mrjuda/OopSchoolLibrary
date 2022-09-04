@@ -1,3 +1,5 @@
-# playground.rb
+#!/usr/bin/env ruby
 
-puts 'Hi Judah'
+puts 'What is your name?'
+name = gets.chomp
+puts "Hi #{name}!"

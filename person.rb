@@ -13,7 +13,7 @@ class Person < Nameable
     @books = []
   end
 
-  attr_accessor :age, :name, :rentals
+  attr_accessor :age, :name, :parent_permission, :rentals
   attr_reader :id
 
   def can_use_services
@@ -28,7 +28,6 @@ class Person < Nameable
 
   def add_rental(rental, book)
     book.rentals.push(rental) unless book.rentals.include?(rental)
-    book.person = self
     @rentals.push(rental)
     @books.push(book)
   end
