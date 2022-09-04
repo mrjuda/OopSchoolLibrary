@@ -5,7 +5,7 @@ require_relative 'teacher'
 require_relative 'book'
 require_relative 'classroom'
 
-module AppHelper
+module AppAux
   def confirm_class
     class_answered = false
     class_message = 'Would you like to create a teacher [1] or a student [2]? Please enter 1 or 2'
@@ -21,7 +21,7 @@ module AppHelper
 
         class_answered = true
       else
-        puts 'Please enter only the number 1 or 2'
+        puts 'Please enter number 1 or 2'
         next
       end
     end

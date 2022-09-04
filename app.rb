@@ -9,13 +9,13 @@ require_relative 'rental'
 require 'set'
 
 class App
-  include AppHelper
-  attr_accessor :books, :people, :rentals
+  include AppAux
+  attr_accessor :rentals, :books, :people
 
   def initialize
+    @rentals = []
     @books = []
     @people = []
-    @rentals = []
   end
 
   def list_all_books
@@ -34,7 +34,7 @@ class App
     specialty = confirm_specialty(class_name)
     age = confirm_age
 
-    puts "please enter this Person's name"
+    puts "Please enter this Person's name"
     name = gets.chomp
     permission = confirm_permission(class_name)
 
@@ -50,36 +50,36 @@ class App
   end
 
   def create_book
-    puts 'title: '
+    puts 'Title: '
     title = gets.chomp
     puts 'Author: '
     author = gets.chomp
     book = Book.new(title, author)
-    puts "Book made. #{title} by #{author}"
+    puts "New book: #{title} by #{author}"
     @books << book
   end
 
   def create_rental
     if @people.empty?
-      puts 'We need a person to rent to! Please add a person before setting up a rental'
+      puts 'Please add a person before setting up a rental'
       return ''
     end
     if @books.empty?
-      puts 'We need a book to rent out! Please add a book before setting up a rental'
+      puts 'Please add a book before setting up a rental'
       return ''
     end
     person_selection_idx = make_person_selection
     book_selection_idx = make_book_selection
     book = @books[book_selection_idx]
     person = @people[person_selection_idx]
-    puts 'please enter a date in format YYYY-MM-DD'
+    puts 'Please enter a date in format YYYY-MM-DD'
     date = gets.chomp
     rental = Rental.new(date, book, person)
     @rentals << rental
   end
 
   def list_all_rentals
-    puts 'No rentals currently' if @rentals.empty?
+    puts 'No rentals so far' if @rentals.empty?
     unless @rentals.empty? # rubocop:disable Style/GuardClause
       search_id = find_id
       filtered = @rentals.select { |rental| rental.person.id == search_id }

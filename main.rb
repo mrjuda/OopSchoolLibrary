@@ -2,7 +2,7 @@
 require_relative 'app'
 
 class Main
-  def display_menu
+  def menu_list
     puts ''
     puts 'Please choose an option by entering a number'
     puts ''
@@ -20,7 +20,7 @@ class Main
     app = App.new
     user_finished = false
     until user_finished
-      display_menu
+      menu_list
       selection = gets.chomp.to_i
       case selection
       when 1 then app.list_all_books
