@@ -1,7 +1,12 @@
 # book_controller.rb
 
 class BookController
-  # Snippet from app.rb line 52
+  attr_accessor :books
+
+  def initialize
+    @books = []
+  end
+
   def create_book
     puts 'Title: '
     title = gets.chomp
@@ -12,7 +17,6 @@ class BookController
     @books << book
   end
 
-  # Snippet from aux.rb line 92
   def make_book_selection
     max = @books.length - 1
     answered = false
@@ -25,5 +29,9 @@ class BookController
         return selection if selection.between?(0, max)
       end
     end
+  end
+
+  def list_all_books
+    @books.each { |book| puts "Title: \"#{book.title}\", Author: \"#{book.author}\"" }
   end
 end

@@ -4,59 +4,36 @@ require_relative 'student'
 require_relative 'teacher'
 require_relative 'book'
 require_relative 'classroom'
-require_relative 'aux'
+require_relative 'auxx'
 require_relative 'rental'
+require_relative 'book_controller'
+require_relative 'people_controller'
 require 'set'
 
 class App
   include AppAux
-  attr_accessor :rentals, :books, :people
+  attr_accessor :rentals
 
   def initialize
     @rentals = []
-    @books = []
-    @people = []
+    @book_controller = BookController.new
+    @people_controller = PeopleController.new
   end
 
   def list_all_books
-    @books.each { |book| puts "Title: \"#{book.title}\", Author: \"#{book.author}\"" }
+    @book_controller.list_all_books
   end
 
   def list_all_people
-    @people.each do |person|
-      puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Student)
-      puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Teacher)
-    end
+    @people_controller.list_all_people
   end
 
   def create_person
-    class_name = confirm_class
-    specialty = confirm_specialty(class_name)
-    age = confirm_age
-
-    puts "Please enter this Person's name"
-    name = gets.chomp
-    permission = confirm_permission(class_name)
-
-    student = Student.new(age, '', name, parent_permission: permission)
-    teacher = Teacher.new(age, specialty, name)
-    if class_name == 'Teacher'
-      puts "Created Teacher Name: #{name} Age: #{age} Specialty: #{specialty}"
-      @people << teacher
-    else
-      puts "Created Student Name: #{name} Age: #{age} ID: #{student.id}"
-      @people << student
-    end
+    @people_controller.create_person
   end
 
   def create_book
-    puts 'Title: '
-    title = gets.chomp
-    puts 'Author: '
-    author = gets.chomp
-    book = Book.new(title, author)
-    puts "New book: #{title} by #{author}"
-    @books << book
+    @book_controller.create_book
   end
 
   def create_rental
