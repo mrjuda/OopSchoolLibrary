@@ -1,5 +1,7 @@
 # book_controller.rb
 
+require_relative 'book'
+
 class BookController
   attr_accessor :books
 

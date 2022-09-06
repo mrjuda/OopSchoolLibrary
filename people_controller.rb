@@ -1,5 +1,8 @@
 # people_controller.rb
 
+require_relative 'student'
+require_relative 'teacher'
+
 class PeopleController
   attr_accessor :people
 
@@ -115,5 +118,9 @@ class PeopleController
       selection = gets.chomp.to_i
       return selection if selection.between?(0, max)
     end
+  end
+
+  def empty?
+    @people.empty?
   end
 end
