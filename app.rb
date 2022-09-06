@@ -7,9 +7,9 @@ require 'set'
 
 class App
   def initialize
-    @rentals_controller = RentalsController.new
     @book_controller = BookController.new
     @people_controller = PeopleController.new
+    @rentals_controller = RentalsController.new(@people_controller, @book_controller)
   end
 
   def list_all_books

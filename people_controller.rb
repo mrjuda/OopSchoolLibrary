@@ -4,8 +4,6 @@ require_relative 'student'
 require_relative 'teacher'
 
 class PeopleController
-  attr_accessor :people
-
   def initialize
     @people = []
   end
@@ -122,5 +120,9 @@ class PeopleController
 
   def empty?
     @people.empty?
+  end
+
+  def get_person_at(index) 
+    @people[index]
   end
 end

@@ -3,10 +3,16 @@
 require_relative 'book'
 
 class BookController
-  attr_accessor :books
-
   def initialize
     @books = []
+  end
+
+  def empty?
+    @books.empty?
+  end
+
+  def get_book_at(index) 
+    @books[index]
   end
 
   def create_book

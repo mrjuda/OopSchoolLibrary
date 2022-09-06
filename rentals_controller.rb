@@ -3,26 +3,26 @@
 require_relative 'rental'
 
 class RentalsController
-  def initialize
+  def initialize(people_controller, book_controller)
     @rentals = []
+    @people_controller = people_controller
+    @book_controller = book_controller
   end
 
   def create_rental
-    if @people.empty?
+    if @people_controller.empty?
       puts 'Please add a person before setting up a rental'
       return ''
     end
-    if @books.empty?
+    if @book_controller.empty?
       puts 'Please add a book before setting up a rental'
       return ''
     end
-    person_selection_idx = make_person_selection
-    book_selection_idx = make_book_selection
-    book = @books[book_selection_idx]
-    person = @people[person_selection_idx]
-    puts 'Please enter a date in format YYYY-MM-DD'
-    date = gets.chomp
-    rental = Rental.new(date, book, person)
+    person_selection_idx = @people_controller.make_person_selection
+    book_selection_idx = @book_controller.make_book_selection
+    book = @book_controller.get_book_at(book_selection_idx)
+    person = @people_controller.get_person_at(person_selection_idx)
+    rental = Rental.new(book, person)
     @rentals << rental
   end
 
