@@ -14,5 +14,11 @@ A school library system
 - LinkedIn: [@judateixeira](https://www.linkedin.com/in/judateixeira "Judá Teixeira's Linkedin profile")
 - Twitter: [@judalabs](https://twitter.com/judalabs "Judá Teixeira's Twitter profile")
 
+
+**Gabriel Santo**
+- GitHub: [@gvgesanto2](https://github.com/gvgesanto2)
+- LinkedIn: [Gabriel Santo](https://linkedin.com/in/gabriel-santo-5882a71b2/)
+- Twitter: [@GabrielSanto997](https://twitter.com/GabrielSanto997)
+
 ## 📝License
 This project is [MIT](https://github.com/mrjuda/OopSchoolLibrary/blob/dev/LICENSE) licensed.
