@@ -122,7 +122,7 @@ class PeopleController
     @people.empty?
   end
 
-  def get_person_at(index) 
+  def get_person_at(index)
     @people[index]
   end
 end

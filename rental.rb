@@ -1,6 +1,6 @@
 # rental.rb
 require 'date'
- 
+
 require_relative 'person'
 require_relative 'book'
 

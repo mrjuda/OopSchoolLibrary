@@ -11,7 +11,7 @@ class BookController
     @books.empty?
   end
 
-  def get_book_at(index) 
+  def get_book_at(index)
     @books[index]
   end
 
