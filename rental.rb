@@ -1,4 +1,5 @@
 # rental.rb
+
 require 'date'
 
 require_relative 'person'

@@ -1,4 +1,4 @@
-# Person.rb
+# person.rb
 
 require_relative 'nameable'
 
