@@ -35,4 +35,8 @@ class App
   def list_all_rentals
     @rentals_controller.list_all_rentals
   end
+
+  def save_books
+    @book_controller.save
+  end
 end
