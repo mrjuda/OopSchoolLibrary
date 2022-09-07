@@ -39,4 +39,8 @@ class App
   def save_books
     @book_controller.save
   end
+
+  def save_people
+    @people_controller.save
+  end
 end

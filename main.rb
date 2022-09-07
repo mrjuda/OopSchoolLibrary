@@ -32,6 +32,7 @@ class Main
       when 6 then app.list_all_rentals
       when 7
         app.save_books
+        app.save_people
         puts 'School Library appreciates your visit!'
         user_finished = true
       else

@@ -1,17 +1,65 @@
 # people_controller.rb
+require 'json'
 
 require_relative 'student'
 require_relative 'teacher'
 
 class PeopleController
   def initialize
-    @people = []
+    people_file = File.open('./data/people.json')
+    people_data = people_file.read
+    people_file.close
+    @people = people_data != '' ? parse_json(people_data) : []
   end
 
   def list_all_people
     @people.each do |person|
       puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Student)
       puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Teacher)
+    end
+  end
+
+  def student_to_hash(student)
+    {
+      name: student.name,
+      age: student.age,
+      parent_permission: student.parent_permission,
+      type: 'student'
+    }
+  end
+  def teacher_to_hash(teacher) 
+    {
+      name: teacher.name,
+      age: teacher.age,
+      specialization: teacher.specialization,
+      type: 'teacher'
+    }
+  end
+
+  def to_json
+    people_hash = @people.map { |person| person.is_a?(Student) ?  student_to_hash(person) : teacher_to_hash(person) }
+    JSON.pretty_generate(people_hash)
+  end
+
+  def parse_json(people_json)
+    people_hash = JSON.parse(people_json)
+    people_hash.map do |person_hash| 
+      if(person_hash['type'] == 'student')
+        name, age, parent_permission = person_hash.values_at('name', 'age', 'parent_permission')
+        Student.new(age, '', name, parent_permission: parent_permission)
+      else
+        name, age, specialization = person_hash.values_at('name', 'age', 'specialization')
+        Teacher.new(age, specialization, name)
+      end
+    end
+  end
+
+  def save
+    if !@people.empty?
+      people_json = to_json
+      people_file = File.open('./data/people.json', 'w')
+      people_file.write(people_json)
+      people_file.close
     end
   end
 
