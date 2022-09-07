@@ -43,4 +43,8 @@ class App
   def save_people
     @people_controller.save
   end
+
+  def save_rentals
+    @rentals_controller.save
+  end
 end

@@ -1,14 +1,12 @@
 [
   {
-    "title": "GOT",
-    "author": "someone"
+    "id": 55,
+    "title": "Got",
+    "author": "Someone"
   },
   {
-    "title": "other",
-    "author": "au2"
-  },
-  {
-    "title": "Third Book",
-    "author": "Author Unknown"
+    "id": 77,
+    "title": "ThisIsAwesome",
+    "author": "Mr.Awesome"
   }
 ]

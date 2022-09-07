@@ -4,9 +4,16 @@ require_relative 'rental'
 
 class RentalsController
   def initialize(people_controller, book_controller)
-    @rentals = []
     @people_controller = people_controller
     @book_controller = book_controller
+  end
+
+  def rental_to_hash(rental)
+    return {
+      date: rental.date, 
+      person_id: rental.person.id,
+      book_id: rental.book.id
+    }
   end
 
   def create_rental

@@ -4,8 +4,8 @@ require_relative './classroom'
 require './person'
 
 class Student < Person
-  def initialize(age, classroom, name = 'Unknown', parent_permission: true)
-    super(age, name, parent_permission: parent_permission)
+  def initialize(age, classroom, name = 'Unknown', parent_permission: true, id: Random.rand(1..100))
+    super(age, name, parent_permission: parent_permission, id: id)
     @classroom = classroom
   end
 
