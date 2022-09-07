@@ -1,11 +1,40 @@
-# aux.rb
+# people_controller.rb
 
 require_relative 'student'
 require_relative 'teacher'
-require_relative 'book'
-require_relative 'classroom'
 
-module AppAux
+class PeopleController
+  def initialize
+    @people = []
+  end
+
+  def list_all_people
+    @people.each do |person|
+      puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Student)
+      puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Teacher)
+    end
+  end
+
+  def create_person
+    class_name = confirm_class
+    specialty = confirm_specialty(class_name)
+    age = confirm_age
+
+    puts "Please enter this Person's name"
+    name = gets.chomp
+    permission = confirm_permission(class_name)
+
+    student = Student.new(age, '', name, parent_permission: permission)
+    teacher = Teacher.new(age, specialty, name)
+    if class_name == 'Teacher'
+      puts "Created Teacher Name: #{name} Age: #{age} Specialty: #{specialty}"
+      @people << teacher
+    else
+      puts "Created Student Name: #{name} Age: #{age} ID: #{student.id}"
+      @people << student
+    end
+  end
+
   def confirm_class
     class_answered = false
     class_message = 'Would you like to create a teacher [1] or a student [2]? Please enter 1 or 2'
@@ -89,34 +118,11 @@ module AppAux
     end
   end
 
-  def make_book_selection
-    max = @books.length - 1
-    answered = false
-    selection = 'nil'
-    until answered
-      puts 'Please select the book by selection number (number on the left of the name)'
-      @books.each_with_index do |book, idx|
-        puts "Selection #{idx}- Title: #{book.title} Author: #{book.author}"
-        selection = gets.chomp.to_i
-        return selection if selection.between?(0, max)
-      end
-    end
+  def empty?
+    @people.empty?
   end
 
-  def find_id
-    answered = false
-    selection = nil
-    max = @rentals.length - 1
-    puts "There are #{@rentals.length} current rentals of books on record"
-    until answered
-      puts 'Please Select a person using the selection number for the person (number to the left of the name)'
-      @rentals.map(&:person).to_set.each_with_index do |person, idx|
-        puts "Selection #{idx} - #{person.name}"
-      end
-      selection = gets.chomp.to_i
-      return @rentals[selection].person.id if selection.between?(0, max)
-
-      next
-    end
+  def get_person_at(index)
+    @people[index]
   end
 end

@@ -1,11 +1,12 @@
 # rental.rb
+require 'date'
 
 require_relative 'person'
 require_relative 'book'
 
 class Rental
-  def initialize(date, book, person)
-    @date = date
+  def initialize(book, person)
+    @date = DateTime.now
     @book = book
     @person = person
     book.rentals.push(self) unless book.rentals.include?(self)
