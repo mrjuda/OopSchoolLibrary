@@ -1,19 +1,20 @@
 # rentals_controller.rb
 
-
-
 require_relative 'rental'
 
 class RentalsController
-
   def initialize(people_controller, book_controller)
     @people_controller = people_controller
     @book_controller = book_controller
+    rentals_file = File.open('./data/rentals.json')
+    rentals_data = rentals_file.read
+    rentals_file.close
+    @rentals = rentals_data != '' ? parse_json(rentals_data) : []
   end
 
   def rental_to_hash(rental)
     return {
-      date: rental.date, 
+      date: rental.date,
       person_id: rental.person.id,
       book_id: rental.book.id
     }
@@ -44,12 +45,10 @@ class RentalsController
       filtered = @rentals.select { |rental| rental.person.id == search_id }
       filtered.each do |rental|
         puts "Rental Details - Date: #{rental.date} Book: #{rental.book.title}
-      \sby #{rental.book.author} Rented by: #{rental.person.name}"
+        \sby #{rental.book.author} Rented by: #{rental.person.name}"
       end
     end
   end
-
-
 
   def find_id
     answered = false
@@ -62,7 +61,8 @@ class RentalsController
         puts "Selection #{idx} - #{person.name}"
       end
       selection = gets.chomp.to_i
-      return @rentals[selection].person.id if selection.between?(0, max
+      return @rentals[selection].person.id if selection.between?(0, max)
+
       next
     end
   end
@@ -75,9 +75,19 @@ class RentalsController
   def parse_json(rentals_json)
     rentals_hash = JSON.parse(rentals_json)
     rentals_hash.map do |rental_hash|
-    date, person_id, book_id = rental_hash.values_at('date', 'person_id', 'book_id')
-    book = @book_controller.find_by_id(book_id)
-    person = @people_controller.find_by_id(person_id)
-    Rental.new(book, person, date)
+      date, person_id, book_id = rental_hash.values_at('date', 'person_id', 'book_id')
+      book = @book_controller.find_by_id(book_id)
+      person = @people_controller.find_by_id(person_id)
+      Rental.new(book, person, date)
+    end
+  end
+
+  def save
+    return unless @rentals.empty?
+
+    rentals_json = to_json
+    rentals_file = File.open('./data/rentals.json', 'w')
+    rentals_file.write(rentals_json)
+    rentals_file.close
   end
 end

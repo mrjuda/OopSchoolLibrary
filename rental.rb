@@ -6,7 +6,7 @@ require_relative 'person'
 require_relative 'book'
 
 class Rental
-  def initialize(book, person, date=DateTime.now)
+  def initialize(book, person, date = DateTime.now)
     @date = date
     @book = book
     @person = person

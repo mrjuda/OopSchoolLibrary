@@ -28,9 +28,10 @@ class PeopleController
       type: 'student'
     }
   end
-  def teacher_to_hash(teacher) 
+
+  def teacher_to_hash(teacher)
     {
-      id: teacher.id, 
+      id: teacher.id,
       name: teacher.name,
       age: teacher.age,
       specialization: teacher.specialization,
@@ -39,14 +40,14 @@ class PeopleController
   end
 
   def to_json
-    people_hash = @people.map { |person| person.is_a?(Student) ?  student_to_hash(person) : teacher_to_hash(person) }
+    people_hash = @people.map { |person| person.is_a?(Student) ? student_to_hash(person) : teacher_to_hash(person) }
     JSON.pretty_generate(people_hash)
   end
 
   def parse_json(people_json)
     people_hash = JSON.parse(people_json)
-    people_hash.map do |person_hash| 
-      if(person_hash['type'] == 'student')
+    people_hash.map do |person_hash|
+      if person_hash['type'] == 'student'
         id, name, age, parent_permission = person_hash.values_at('id', 'name', 'age', 'parent_permission')
         Student.new(age, '', name, parent_permission: parent_permission, id: id)
       else
@@ -57,12 +58,12 @@ class PeopleController
   end
 
   def save
-    if !@people.empty?
-      people_json = to_json
-      people_file = File.open('./data/people.json', 'w')
-      people_file.write(people_json)
-      people_file.close
-    end
+    return unless @people.empty?
+
+    people_json = to_json
+    people_file = File.open('./data/people.json', 'w')
+    people_file.write(people_json)
+    people_file.close
   end
 
   def create_person

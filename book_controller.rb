@@ -25,7 +25,7 @@ class BookController
   def book_to_hash(book)
     return {
       id: book.id,
-      title: book.title, 
+      title: book.title,
       author: book.author
     }
   end
@@ -37,19 +37,19 @@ class BookController
 
   def parse_json(books_json)
     books_hash = JSON.parse(books_json)
-    books_hash.map do |book_hash| 
+    books_hash.map do |book_hash|
       title, author, id = book_hash.values_at('title', 'author', 'id')
       Book.new(title, author, id: id)
     end
   end
 
   def save
-    if !@books.empty?
-      books_json = to_json
-      books_file = File.open('./data/books.json', 'w')
-      books_file.write(books_json)
-      books_file.close
-    end
+    return unless @books.empty?
+
+    books_json = to_json
+    books_file = File.open('./data/books.json', 'w')
+    books_file.write(books_json)
+    books_file.close
   end
 
   def create_book
