@@ -9,7 +9,7 @@ class PeopleController
     people_file = File.open('./data/people.json')
     people_data = people_file.read
     people_file.close
-    @people = people_data != '' ? parse_json(people_data) : []
+    @people = people_data == '' ? [] : parse_json(people_data)
   end
 
   def list_all_people
@@ -39,7 +39,7 @@ class PeopleController
     }
   end
 
-  def to_json
+  def to_json(*_args)
     people_hash = @people.map { |person| person.is_a?(Student) ? student_to_hash(person) : teacher_to_hash(person) }
     JSON.pretty_generate(people_hash)
   end

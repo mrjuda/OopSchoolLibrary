@@ -9,11 +9,11 @@ class RentalsController
     rentals_file = File.open('./data/rentals.json')
     rentals_data = rentals_file.read
     rentals_file.close
-    @rentals = rentals_data != '' ? parse_json(rentals_data) : []
+    @rentals = rentals_data == '' ? [] : parse_json(rentals_data)
   end
 
   def rental_to_hash(rental)
-    return {
+    {
       date: rental.date,
       person_id: rental.person.id,
       book_id: rental.book.id
@@ -67,7 +67,7 @@ class RentalsController
     end
   end
 
-  def to_json
+  def to_json(*_args)
     rentals_hash = @rentals.map { |rental| rental_to_hash(rental) }
     JSON.pretty_generate(rentals_hash)
   end
