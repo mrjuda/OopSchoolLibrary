@@ -1,11 +1,15 @@
 # people_controller.rb
+require 'json'
 
 require_relative 'student'
 require_relative 'teacher'
 
 class PeopleController
   def initialize
-    @people = []
+    people_file = File.open('./data/people.json')
+    people_data = people_file.read
+    people_file.close
+    @people = people_data == '' ? [] : parse_json(people_data)
   end
 
   def list_all_people
@@ -13,6 +17,53 @@ class PeopleController
       puts "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Student)
       puts "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" if person.is_a?(Teacher)
     end
+  end
+
+  def student_to_hash(student)
+    {
+      id: student.id,
+      name: student.name,
+      age: student.age,
+      parent_permission: student.parent_permission,
+      type: 'student'
+    }
+  end
+
+  def teacher_to_hash(teacher)
+    {
+      id: teacher.id,
+      name: teacher.name,
+      age: teacher.age,
+      specialization: teacher.specialization,
+      type: 'teacher'
+    }
+  end
+
+  def to_json(*_args)
+    people_hash = @people.map { |person| person.is_a?(Student) ? student_to_hash(person) : teacher_to_hash(person) }
+    JSON.pretty_generate(people_hash)
+  end
+
+  def parse_json(people_json)
+    people_hash = JSON.parse(people_json)
+    people_hash.map do |person_hash|
+      if person_hash['type'] == 'student'
+        id, name, age, parent_permission = person_hash.values_at('id', 'name', 'age', 'parent_permission')
+        Student.new(age, '', name, parent_permission: parent_permission, id: id)
+      else
+        id, name, age, specialization = person_hash.values_at('id', 'name', 'age', 'specialization')
+        Teacher.new(age, specialization, name, id: id)
+      end
+    end
+  end
+
+  def save
+    return if @people.empty?
+
+    people_json = to_json
+    people_file = File.open('./data/people.json', 'w')
+    people_file.write(people_json)
+    people_file.close
   end
 
   def create_person
@@ -124,5 +175,9 @@ class PeopleController
 
   def get_person_at(index)
     @people[index]
+  end
+
+  def find_by_id(person_id)
+    @people.find { |person| person.id == person_id }
   end
 end

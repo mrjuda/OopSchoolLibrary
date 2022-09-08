@@ -4,9 +4,20 @@ require_relative 'rental'
 
 class RentalsController
   def initialize(people_controller, book_controller)
-    @rentals = []
     @people_controller = people_controller
     @book_controller = book_controller
+    rentals_file = File.open('./data/rentals.json')
+    rentals_data = rentals_file.read
+    rentals_file.close
+    @rentals = rentals_data == '' ? [] : parse_json(rentals_data)
+  end
+
+  def rental_to_hash(rental)
+    {
+      date: rental.date,
+      person_id: rental.person.id,
+      book_id: rental.book.id
+    }
   end
 
   def create_rental
@@ -14,6 +25,7 @@ class RentalsController
       puts 'Please add a person before setting up a rental'
       return ''
     end
+
     if @book_controller.empty?
       puts 'Please add a book before setting up a rental'
       return ''
@@ -33,7 +45,7 @@ class RentalsController
       filtered = @rentals.select { |rental| rental.person.id == search_id }
       filtered.each do |rental|
         puts "Rental Details - Date: #{rental.date} Book: #{rental.book.title}
-      \sby #{rental.book.author} Rented by: #{rental.person.name}"
+        \sby #{rental.book.author} Rented by: #{rental.person.name}"
       end
     end
   end
@@ -53,5 +65,29 @@ class RentalsController
 
       next
     end
+  end
+
+  def to_json(*_args)
+    rentals_hash = @rentals.map { |rental| rental_to_hash(rental) }
+    JSON.pretty_generate(rentals_hash)
+  end
+
+  def parse_json(rentals_json)
+    rentals_hash = JSON.parse(rentals_json)
+    rentals_hash.map do |rental_hash|
+      date, person_id, book_id = rental_hash.values_at('date', 'person_id', 'book_id')
+      book = @book_controller.find_by_id(book_id)
+      person = @people_controller.find_by_id(person_id)
+      Rental.new(book, person, date)
+    end
+  end
+
+  def save
+    return if @rentals.empty?
+
+    rentals_json = to_json
+    rentals_file = File.open('./data/rentals.json', 'w')
+    rentals_file.write(rentals_json)
+    rentals_file.close
   end
 end

@@ -1,18 +1,55 @@
 # book_controller.rb
-
+require 'json'
 require_relative 'book'
 
 class BookController
   def initialize
-    @books = []
+    books_file = File.open('./data/books.json')
+    books_data = books_file.read
+    books_file.close
+    @books = books_data == '' ? [] : parse_json(books_data)
   end
 
   def empty?
     @books.empty?
   end
 
+  def find_by_id(book_id)
+    @books.find { |book| book.id == book_id }
+  end
+
   def get_book_at(index)
     @books[index]
+  end
+
+  def book_to_hash(book)
+    {
+      id: book.id,
+      title: book.title,
+      author: book.author
+    }
+  end
+
+  def to_json(*_args)
+    books_hash = @books.map { |book| book_to_hash(book) }
+    JSON.pretty_generate(books_hash)
+  end
+
+  def parse_json(books_json)
+    books_hash = JSON.parse(books_json)
+    books_hash.map do |book_hash|
+      title, author, id = book_hash.values_at('title', 'author', 'id')
+      Book.new(title, author, id: id)
+    end
+  end
+
+  def save
+    return if @books.empty?
+
+    books_json = to_json
+    books_file = File.open('./data/books.json', 'w')
+    books_file.write(books_json)
+    books_file.close
   end
 
   def create_book
