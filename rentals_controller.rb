@@ -83,7 +83,7 @@ class RentalsController
   end
 
   def save
-    return unless @rentals.empty?
+    return if @rentals.empty?
 
     rentals_json = to_json
     rentals_file = File.open('./data/rentals.json', 'w')

@@ -44,7 +44,7 @@ class BookController
   end
 
   def save
-    return unless @books.empty?
+    return if @books.empty?
 
     books_json = to_json
     books_file = File.open('./data/books.json', 'w')

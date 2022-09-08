@@ -58,7 +58,7 @@ class PeopleController
   end
 
   def save
-    return unless @people.empty?
+    return if @people.empty?
 
     people_json = to_json
     people_file = File.open('./data/people.json', 'w')
