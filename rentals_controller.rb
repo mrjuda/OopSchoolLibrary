@@ -1,8 +1,11 @@
 # rentals_controller.rb
 
+
+
 require_relative 'rental'
 
 class RentalsController
+
   def initialize(people_controller, book_controller)
     @people_controller = people_controller
     @book_controller = book_controller
@@ -21,6 +24,7 @@ class RentalsController
       puts 'Please add a person before setting up a rental'
       return ''
     end
+
     if @book_controller.empty?
       puts 'Please add a book before setting up a rental'
       return ''
@@ -45,6 +49,8 @@ class RentalsController
     end
   end
 
+
+
   def find_id
     answered = false
     selection = nil
@@ -56,9 +62,22 @@ class RentalsController
         puts "Selection #{idx} - #{person.name}"
       end
       selection = gets.chomp.to_i
-      return @rentals[selection].person.id if selection.between?(0, max)
-
+      return @rentals[selection].person.id if selection.between?(0, max
       next
     end
+  end
+
+  def to_json
+    rentals_hash = @rentals.map { |rental| rental_to_hash(rental) }
+    JSON.pretty_generate(rentals_hash)
+  end
+
+  def parse_json(rentals_json)
+    rentals_hash = JSON.parse(rentals_json)
+    rentals_hash.map do |rental_hash|
+    date, person_id, book_id = rental_hash.values_at('date', 'person_id', 'book_id')
+    book = @book_controller.find_by_id(book_id)
+    person = @people_controller.find_by_id(person_id)
+    Rental.new(book, person, date)
   end
 end
