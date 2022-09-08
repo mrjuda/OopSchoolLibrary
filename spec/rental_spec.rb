@@ -10,7 +10,7 @@ describe Rental do
 
   it 'should show the correct date of the rental' do
     today_date = DateTime.now.strftime('%m/%d/%Y')
-    
+
     rental_date = @rental.date.strftime('%m/%d/%Y')
 
     expect(rental_date).to eq today_date
@@ -25,4 +25,4 @@ describe Rental do
     person_rentals_length = @rental.person.rentals.length
     expect(person_rentals_length).to eq 1
   end
-end 
+end
