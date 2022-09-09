@@ -19,5 +19,5 @@ class Student < Person
     @rentals.push(rental)
   end
 
-  attr_reader :classroom
+  attr_accessor :classroom
 end
