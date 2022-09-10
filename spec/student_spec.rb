@@ -3,8 +3,6 @@
 require_relative '../rental'
 require_relative '../student'
 
-# def initialize(age, classroom, name = 'Unknown', parent_permission: true, id: Random.rand(1..100))
-
 describe Student do
   before :each do
     @student = Student.new(21, 'Math', 'Verstappen')
