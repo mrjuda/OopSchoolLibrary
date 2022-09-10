@@ -19,5 +19,12 @@
     "age": 22,
     "parent_permission": null,
     "type": "student"
+  },
+  {
+    "id": 41,
+    "name": "Hamilton",
+    "age": 21,
+    "parent_permission": null,
+    "type": "student"
   }
 ]
